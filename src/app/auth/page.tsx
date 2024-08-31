@@ -1,13 +1,13 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-// import AuthButtons from "./AuthButtons";
-// import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
 import AuthButtons from "./AuthButtons";
 
 const page = async () => {
-  // const { isAuthenticated } = getKindeServerSession();
-  // if (await isAuthenticated()) return redirect("/");
+  const { isAuthenticated } = getKindeServerSession();
+  if (await isAuthenticated()) return redirect("/");
 
   return (
     <div className="flex h-screen w-full">
@@ -54,7 +54,7 @@ const page = async () => {
           src={"/35.png"}
           alt="Hero Image1"
           fill
-          className="object-cover dark:opacity-60 opacity-90 pointer-events-none select-none h-full"
+          className="object-cover  opacity-100 pointer-events-none select-none h-full"
         />
       </div>
     </div>

@@ -1,17 +1,41 @@
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
-import { Message, messages, USERS } from "@/db/dummy";
+
 import { Avatar, AvatarImage } from "../ui/avatar";
+import { useSelectedUser } from "@/store/useSelectedUser";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import { getMessages } from "@/actions/message.action";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useRef } from "react";
+import MessageSkeleton from "../skeletons/MessageSkeleton";
+import { useTheme } from "next-themes";
 
 const MessageList = () => {
-  const selectedUser = USERS[0];
-  const currentUser = USERS[1];
+  const { selectedUser } = useSelectedUser();
+	const { user: currentUser, isLoading: isUserLoading } = useKindeBrowserClient();
+	const messageContainerRef = useRef<HTMLDivElement>(null);
+  const { theme } = useTheme();
+	const { data: messages, isLoading: isMessagesLoading } = useQuery({
+		queryKey: ["messages", selectedUser?.id],
+		queryFn: async () => {
+			if (selectedUser && currentUser) {
+				return await getMessages(selectedUser?.id, currentUser?.id);
+			}
+		},
+		enabled: !!selectedUser && !!currentUser && !isUserLoading,
+	});
+  // ye use ho rha h taki automatically niche scroll ho jye
+  useEffect(() => {
+		if (messageContainerRef.current) {
+			messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
+		}
+	}, [messages]);
 
   return (
-    <div className="w-full overflow-y-auto overflow-x-hidden h-full flex flex-col">
+    <div ref={messageContainerRef} className="w-full overflow-y-auto overflow-x-hidden h-full flex flex-col">
     
       <AnimatePresence>
-        {messages?.map((message, index) => (
+        { !isMessagesLoading && messages?.map((message, index) => (
           <motion.div
             key={index}
             layout
@@ -46,7 +70,7 @@ const MessageList = () => {
                 </Avatar>
               )}
               {message.messageType === "text" ? (
-                <span className="bg-amber-500 p-3 rounded-md max-w-xs">
+                <span className={cn("p-3 rounded-md max-w-xs",theme === "dark" ? "bg-pink-600" :"bg-cyan-500")}>
                   {message.content}
                 </span>
               ) : (
@@ -60,7 +84,7 @@ const MessageList = () => {
               {message.senderId === currentUser?.id && (
                 <Avatar className="flex justify-center items-center">
                   <AvatarImage
-                    src={currentUser.image}
+                    src={currentUser?.picture || "/user-placeholder.png"}
                     alt="User Image"
                     className="border-2 border-white rounded-full"
                   />
@@ -69,6 +93,15 @@ const MessageList = () => {
             </div>
           </motion.div>
         ))}
+
+        
+				{isMessagesLoading && (
+					<>
+						<MessageSkeleton />
+						<MessageSkeleton />
+						<MessageSkeleton />
+					</>
+				)}
       </AnimatePresence>
     </div>
   );
