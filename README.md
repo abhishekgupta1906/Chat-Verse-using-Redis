@@ -3,8 +3,9 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 Live Demo [Live Demo](https://chat-verse-using-redis.vercel.app/auth) is available
 
 ### ScreenShots
- ![Screenshot 2024-10-21 055602](https://github.com/user-attachments/assets/8e46da51-e73e-4953-866b-3d2de113f532)
  
+![Screenshot 2024-10-21 055602](https://github.com/user-attachments/assets/8e46da51-e73e-4953-866b-3d2de113f532)
+
 ### First Setup .env file
 ```js
 KINDE_CLIENT_ID=
@@ -43,11 +44,7 @@ pnpm dev
 # or
 bun dev
 ```
-### Docker Configuration
-```bash
-docker-compose build
-docker-compose up
-```
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
@@ -72,6 +69,6 @@ by 35 % , and reducing login times 20 %.
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our Next.js deployment documentation(https://nextjs.org/docs/deployment) for more details.
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 
