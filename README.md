@@ -3,6 +3,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 Live Demo [Live Demo](https://chat-verse-using-redis.vercel.app/auth) is available
 
 ### ScreenShots
+ 
+![Screenshot 2024-10-21 055602](https://github.com/user-attachments/assets/8e46da51-e73e-4953-866b-3d2de113f532)
 
 ### First Setup .env file
 ```js
