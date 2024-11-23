@@ -44,6 +44,15 @@ pnpm dev
 # or
 bun dev
 ```
+OR
+## Using Docker Command 
+To start the application using Docker Compose, run the following command in your terminal:
+```bash
+docker compose up
+
+```
+
+
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
