@@ -21,7 +21,9 @@ async function getUsers(): Promise<User[]> {
 
 	const { getUser } = getKindeServerSession();
 	const currentUser = await getUser();
-
+	if (userKeys.length === 0) {
+        return [];
+    }
 	const pipeline = redis.pipeline();
 	userKeys.forEach((key) => pipeline.hgetall(key));
 	const results = (await pipeline.exec()) as User[];
@@ -32,6 +34,7 @@ async function getUsers(): Promise<User[]> {
 		if (user.id !== currentUser?.id) {
 			users.push(user);
 		}
+			// users.push(user);
 	}
 	return users;
 }
@@ -40,6 +43,8 @@ async function getUsers(): Promise<User[]> {
 export default async function Home() {
 	const layout = cookies().get("react-resizable-panels:layout");
 	const defaultLayout = layout ? JSON.parse(layout.value) : undefined;
+	
+	// console.log(await redis.get("hello"));
   const { isAuthenticated } = getKindeServerSession();
   if (!(await isAuthenticated())) return redirect("/auth");
   const users = await getUsers();
